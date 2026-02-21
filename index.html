@@ -17,9 +17,6 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- daisy UI themes -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
-
     <!-- fontawsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
@@ -37,38 +34,45 @@
 
         .container {
             max-width: 1600px;
-            width: 70%;
+
         }
     </style>
 </head>
 
 <body>
-    <header class="container mx-auto mt-15 space-y-5">
+    <!-- header section -->
+    <header class="container mx-auto mt-8 px-4 sm:px-6 md:px-0 w-full md:w-[70%] space-y-5">
 
-        <h1 class="text-[#002C5C] font-bold text-[2rem]">Job Application Tracker</h1>
+        <h1 class="text-[#002C5C] font-bold text-xl sm:text-2xl md:text-[2rem]">
+            Job Application Tracker
+        </h1>
+
         <div class="grid grid-cols-3 gap-4">
-            <div class="p-5 bg-white border border-[#F1F2F4] shadow">
-                <h2 class="text-[#323B49] text-xl">Total</h2>
-                <p id="total" class="text-[#002C5C] text-2xl font-bold">0</p>
+
+            <div class="p-4 sm:p-5 bg-white border border-[#F1F2F4] shadow ">
+                <h2 class="text-[#323B49] text-lg sm:text-xl">Total</h2>
+                <p id="total" class="text-[#002C5C] text-xl sm:text-2xl font-bold">0</p>
             </div>
-            <div class="p-5 bg-white border border-[#F1F2F4] shadow">
-                <h2 class="text-[#323B49] text-xl">Interview</h2>
-                <p id="interview" class="text-green-600 text-2xl font-bold">0</p>
+
+            <div class="p-4 sm:p-5 bg-white border border-[#F1F2F4] shadow ">
+                <h2 class="text-[#323B49] text-lg sm:text-xl">Interview</h2>
+                <p id="interview" class="text-green-600 text-xl sm:text-2xl font-bold">0</p>
             </div>
-            <div class="p-5 bg-white border border-[#F1F2F4] shadow">
-                <h2 class="text-[#323B49] text-xl">Rejected</h2>
-                <p id="rejected" class="text-red-600 text-2xl font-bold">0</p>
+
+            <div class="p-4 sm:p-5 bg-white border border-[#F1F2F4] shadow ">
+                <h2 class="text-[#323B49] text-lg sm:text-xl">Rejected</h2>
+                <p id="rejected" class="text-red-600 text-xl sm:text-2xl font-bold">0</p>
             </div>
         </div>
 
     </header>
 
-    <hr class="container mx-auto my-8 border-[#E6E7E9]">
-
-    <main class="container mx-auto">
+    <hr class="w-full md:w-[70%] mx-auto my-6 sm:my-8 px-4 sm:px-6 md:px-0 border-[#E6E7E9]">
+    <!-- main section -->
+    <main class="mx-auto mt-6 sm:mt-8 w-full md:w-[70%] px-4 sm:px-6 md:px-0">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-[#002C5C] text-xl font-semibold">Available Jobs</h2>
-            <p id="total" class="text-[#64748B] font-medium">8 jobs</p>
+            <h2 class="text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">Available Jobs</h2>
+            <p id="jobs-count" class="text-[#64748B] font-medium">8 jobs</p>
         </div>
         <section id="jobs-container" class="space-y-4">
             <div id="btn" class="fext gap-2">
@@ -76,9 +80,30 @@
                 <button id="all-btn" class="btn px-3 py-2 text-[#64748B] ">Interview</button>
                 <button id="all-btn" class="btn px-3 py-2 text-[#64748B]">Rejected</button>
             </div>
-            <section id="card-content">
-                <div class="card p-6 bg-white border border-[#F1F2F4] shadow">
 
+            <!-- cards -->
+            <section id="card-content">
+                <div class="card p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
+                    <div class="space-y-1">
+                        <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">Mobile First Corp</h3>
+                        <p class="position text-[#64748B] ">React Native Developer</p>
+                    </div>
+
+                    <div>
+                        <p class="text-[#64748B] text-sm"><span class="location">Remote</span> • <span
+                                class="type">Full-time</span> • <span class="salary">$130,000 - $175,000</span></p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button class="btn-status btn bg-[#EEF4FF] uppercase font-medium">Not Applied</button>
+                        <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
+                            React Native. Work on products used by millions of users worldwide.</p>
+                    </div>
+
+                    <div class="space-x-2">
+                        <button class="btn-interview btn btn-outline btn-success uppercase">interview</button>
+                        <button class="btn-rejected btn btn-outline btn-error uppercase">Rejected</button>
+                    </div>
                 </div>
             </section>
         </section>
