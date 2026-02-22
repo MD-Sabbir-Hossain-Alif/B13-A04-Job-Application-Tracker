@@ -18,6 +18,9 @@ const mainContainer = document.querySelector('main');
 // step: 6.1 get card tab
 const cardTab = document.getElementById('tab-card');
 
+// step: 6.2 get filtered cards
+const filteredCard = document.getElementById('filtered-cards')
+
 //Step: 4.1 get tabs btn
 const allTab = document.getElementById('all-tab')
 const interviewTab = document.getElementById('interview-tab')
@@ -59,10 +62,29 @@ function toggle(id) {
 
     if (id === 'interview-tab') {
         cards.classList.add('hidden');
-        cardTab.classList.remove('hidden')
-    } else if(id === 'rejected-tab') {
+        cardTab.classList.remove('hidden');
+        filteredCard.classList.remove('hidden');
+        
+        // if arr has any card remove no job card add card
+        if (interviewList.length) {
+            filteredCard.classList.remove('hidden');
+            cardTab.classList.add('hidden');
+            renderInterview()
+        }
+    } else if (id === 'rejected-tab') {
         cards.classList.add('hidden');
-        cardTab.classList.remove('hidden')
+        cardTab.classList.remove('hidden');
+        filteredCard.classList.remove('hidden');
+
+        if (rejectedList.length) {
+            filteredCard.classList.remove('hidden');
+            cardTab.classList.add('hidden');
+            renderRejected()
+        }
+    } else if (id === 'all-tab') {
+        cardTab.classList.add('hidden');
+        filteredCard.classList.add('hidden')
+        cards.classList.remove('hidden')
     }
 
 }
@@ -82,28 +104,31 @@ mainContainer.addEventListener('click', function (event) {
         const status = parentNode.querySelector('.btn-status').innerText;
         const description = parentNode.querySelector('.description').innerText;
 
-        // create an object and push particular arr
+        // update status btn
+        parentNode.querySelector('.btn-status').innerText = 'Interview';
 
+        // create an object and push particular arr
         const cardInfo = {
             companyName,
             position,
             location,
             type,
             salary,
-            status,
+            status: "Interview",
             description
         }
         // console.log(cardInfo)
 
         const companyExist = interviewList.find(item => item.companyName === cardInfo.companyName);
 
-        if(!companyExist) {
+        if (!companyExist) {
             interviewList.push(cardInfo);
             // console.log(interviewList)
         }
+
         calculateCount();
 
-        renderInterview()
+        
 
     } else if (event.target.classList.contains('btn-rejected')) {
         const parentNode = event.target.closest('.card');
@@ -117,22 +142,25 @@ mainContainer.addEventListener('click', function (event) {
         const status = parentNode.querySelector('.btn-status').innerText;
         const description = parentNode.querySelector('.description').innerText;
 
-        // create an object and push particular arr
 
+        // update status btn
+        parentNode.querySelector('.btn-status').innerText = 'Rejected';
+
+        // create an object and push particular arr
         const cardInfo = {
             companyName,
             position,
             location,
             type,
             salary,
-            status,
+            status: "Rejected",
             description
         }
         // console.log(cardInfo)
 
-        const companyExist = interviewList.find(item => item.companyName === cardInfo.companyName);
+        const companyExist = rejectedList.find(item => item.companyName === cardInfo.companyName);
 
-        if(!companyExist) {
+        if (!companyExist) {
             rejectedList.push(cardInfo);
             // console.log(interviewList)
         }
@@ -140,10 +168,97 @@ mainContainer.addEventListener('click', function (event) {
     }
 })
 
-// Step: 6 rander card in tab section
+// Step: 6 check ary length & rander card in tab section
 function renderInterview() {
-    if (interviewList.length) {
+    // remove all thing every time 
+    filteredCard.innerHTML = '';
+    // console.log(cardTab.innerHTML)
 
+    for (let interview of interviewList) {
+        // console.log(interview);
+
+        let div = document.createElement('div');
+        div.innerHTML = `
+                <div class="card p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div class="space-y-1">
+                            <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">Mobile
+                                First Corp</h3>
+                            <p class="position text-[#64748B]">React Native Developer</p>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-circle text-[#64748B] border-2 border-[#F1F2F4]">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-[#64748B] text-sm"><span class="location">Remote</span> • <span
+                                class="type">Full-time</span> • <span class="salary">$130,000 - $175,000</span></p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button class="btn-status btn bg-[#EEF4FF] uppercase font-medium">${interview.status}</button>
+                        <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
+                            React Native. Work on products used by millions of users worldwide.</p>
+                    </div>
+
+                    <div class="space-x-2">
+                        <button class="btn-interview btn btn-outline btn-success uppercase">interview</button>
+                        <button class="btn-rejected btn btn-outline btn-error uppercase">Rejected</button>
+                    </div>
+                </div>
+        `
+        filteredCard.appendChild(div)
     }
+
 }
 
+function renderRejected() {
+    // remove all thing every time 
+    filteredCard.innerHTML = '';
+    // console.log(cardTab.innerHTML)
+
+    for (let interview of rejectedList) {
+        // console.log(interview);
+
+        let div = document.createElement('div');
+        div.innerHTML = `
+                <div class="card p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div class="space-y-1">
+                            <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">Mobile
+                                First Corp</h3>
+                            <p class="position text-[#64748B]">React Native Developer</p>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-circle text-[#64748B] border-2 border-[#F1F2F4]">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-[#64748B] text-sm"><span class="location">Remote</span> • <span
+                                class="type">Full-time</span> • <span class="salary">$130,000 - $175,000</span></p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button class="btn-status btn bg-[#EEF4FF] uppercase font-medium">${interview.status}</button>
+                        <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
+                            React Native. Work on products used by millions of users worldwide.</p>
+                    </div>
+
+                    <div class="space-x-2">
+                        <button class="btn-interview btn btn-outline btn-success uppercase">interview</button>
+                        <button class="btn-rejected btn btn-outline btn-error uppercase">Rejected</button>
+                    </div>
+                </div>
+        `
+        filteredCard.appendChild(div)
+    }
+
+}
