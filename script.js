@@ -15,6 +15,9 @@ const cardsClild = cards.children.length;
 // step: 5.1 main Container
 const mainContainer = document.querySelector('main');
 
+// step: 6.1 get card tab
+const cardTab = document.getElementById('tab-card');
+
 //Step: 4.1 get tabs btn
 const allTab = document.getElementById('all-tab')
 const interviewTab = document.getElementById('interview-tab')
@@ -53,6 +56,15 @@ function toggle(id) {
     // console.log(allTab);
     // console.log(interviewTab);
     // console.log(rejectedTab);
+
+    if (id === 'interview-tab') {
+        cards.classList.add('hidden');
+        cardTab.classList.remove('hidden')
+    } else if(id === 'rejected-tab') {
+        cards.classList.add('hidden');
+        cardTab.classList.remove('hidden')
+    }
+
 }
 
 // Step: 5 we add event leistener on main tag so we can do event delegation
@@ -127,10 +139,6 @@ mainContainer.addEventListener('click', function (event) {
         calculateCount();
     }
 })
-
-const filteredCard = document.getElementById('filtered-cards');
-
-const cardTab = document.getElementById('tab-card');
 
 // Step: 6 rander card in tab section
 function renderInterview() {
