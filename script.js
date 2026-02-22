@@ -56,7 +56,86 @@ function toggle(id) {
 }
 
 // Step: 5 we add event leistener on main tag so we can do event delegation
-mainContainer.addEventListener('click', function(event) {
+mainContainer.addEventListener('click', function (event) {
     // console.log(event);
-    
+    if (event.target.classList.contains('btn-interview')) {
+        const parentNode = event.target.closest('.card');
+        // console.log(parentNode)
+
+        const companyName = parentNode.querySelector('.companyName').innerText;
+        const position = parentNode.querySelector('.position').innerText;
+        const location = parentNode.querySelector('.location').innerText;
+        const type = parentNode.querySelector('.type').innerText;
+        const salary = parentNode.querySelector('.salary').innerText;
+        const status = parentNode.querySelector('.btn-status').innerText;
+        const description = parentNode.querySelector('.description').innerText;
+
+        // create an object and push particular arr
+
+        const cardInfo = {
+            companyName,
+            position,
+            location,
+            type,
+            salary,
+            status,
+            description
+        }
+        // console.log(cardInfo)
+
+        const companyExist = interviewList.find(item => item.companyName === cardInfo.companyName);
+
+        if(!companyExist) {
+            interviewList.push(cardInfo);
+            // console.log(interviewList)
+        }
+        calculateCount();
+
+        renderInterview()
+
+    } else if (event.target.classList.contains('btn-rejected')) {
+        const parentNode = event.target.closest('.card');
+        // console.log(parentNode)
+
+        const companyName = parentNode.querySelector('.companyName').innerText;
+        const position = parentNode.querySelector('.position').innerText;
+        const location = parentNode.querySelector('.location').innerText;
+        const type = parentNode.querySelector('.type').innerText;
+        const salary = parentNode.querySelector('.salary').innerText;
+        const status = parentNode.querySelector('.btn-status').innerText;
+        const description = parentNode.querySelector('.description').innerText;
+
+        // create an object and push particular arr
+
+        const cardInfo = {
+            companyName,
+            position,
+            location,
+            type,
+            salary,
+            status,
+            description
+        }
+        // console.log(cardInfo)
+
+        const companyExist = interviewList.find(item => item.companyName === cardInfo.companyName);
+
+        if(!companyExist) {
+            rejectedList.push(cardInfo);
+            // console.log(interviewList)
+        }
+        calculateCount();
+    }
 })
+
+const filteredCard = document.getElementById('filtered-cards');
+
+const cardTab = document.getElementById('tab-card');
+
+// Step: 6 rander card in tab section
+function renderInterview() {
+    if (interviewList.length) {
+
+    }
+}
+
