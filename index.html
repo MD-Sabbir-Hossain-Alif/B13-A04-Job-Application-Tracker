@@ -77,9 +77,9 @@
         </div>
         <section id="jobs-container" class="space-y-4">
             <div id="tabs" class="fext gap-2">
-                <button onclick="allJobsCard()" class="btn w-20 px-3 py-2 bg-[#3B82F6] text-white">All</button>
-                <button onclick="" class="btn px-3 py-2 text-[#64748B] ">Interview</button>
-                <button onclick="" class="btn px-3 py-2 text-[#64748B]">Rejected</button>
+                <button onclick="toggle('all-tab')" id="all-tab" class="btn w-20 px-3 py-2 bg-[#3B82F6] text-white">All</button>
+                <button onclick="toggle('interview-tab')" id="interview-tab" class="btn px-3 py-2 text-[#64748B] ">Interview</button>
+                <button onclick="toggle('rejected-tab')" id="rejected-tab" class="btn px-3 py-2 text-[#64748B]">Rejected</button>
             </div>
 
             <!-- cards -->
