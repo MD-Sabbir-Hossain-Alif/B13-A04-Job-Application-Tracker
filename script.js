@@ -12,7 +12,6 @@ let rejectedCount = document.getElementById('rejected');
 
 // Step: 3 get cards clild length
 const cards = document.getElementById('cards');
-const cardsClild = cards.children.length;
 
 // step: 5.1 main Container
 const mainContainer = document.querySelector('main');
@@ -30,6 +29,7 @@ const rejectedTab = document.getElementById('rejected-tab')
 
 // Step: 3.1 calculate count function
 function calculateCount() {
+    const cardsClild = cards.children.length;
     // Step: 2 here we need to update total in 2 places so i create a loop and update total value
     for (const element of total) {
         element.textContent = cardsClild;
@@ -72,8 +72,10 @@ function toggle(id) {
             filteredCard.classList.remove('hidden');
             cardTab.classList.add('hidden');
             renderInterview()
+        } else {
+            filteredCard.classList.add('hidden')
         }
-        
+
     } else if (id === 'rejected-tab') {
         cards.classList.add('hidden');
         cardTab.classList.remove('hidden')
@@ -81,6 +83,8 @@ function toggle(id) {
             filteredCard.classList.remove('hidden');
             cardTab.classList.add('hidden');
             renderRejected()
+        } else {
+            filteredCard.classList.add('hidden')
         }
     } else if (id === 'all-tab') {
         filteredCard.classList.add('hidden')
@@ -108,7 +112,8 @@ mainContainer.addEventListener('click', function (event) {
         // update status btn
         parentNode.querySelector('.btn-status').innerText = 'Interview';
 
-        status.classList.add('btn-outline', 'btn-success')
+        status.classList.remove('btn-error', 'bg-[#EEF4FF]', 'bg-red-100')
+        status.classList.add('btn-outline', 'btn-success', 'bg-green-100')
 
         // create an object and push particular arr
         const cardInfo = {
@@ -136,6 +141,10 @@ mainContainer.addEventListener('click', function (event) {
         // after remove rerender the html
         if (currentStatus == 'rejected-tab') {
             renderRejected()
+            if (rejectedList.length === 0) {
+                filteredCard.classList.add('hidden');
+                cardTab.classList.remove('hidden');
+            }
         }
 
         calculateCount();
@@ -152,7 +161,8 @@ mainContainer.addEventListener('click', function (event) {
         const status = parentNode.querySelector('.btn-status');
         const description = parentNode.querySelector('.description').innerText;
 
-        status.classList.add('btn-outline', 'btn-error')
+        status.classList.remove('btn-success', 'bg-[#EEF4FF]', 'bg-green-100')
+        status.classList.add('btn-outline', 'btn-error', 'bg-red-100')
 
         // update status btn
         parentNode.querySelector('.btn-status').innerText = 'Rejected';
@@ -183,11 +193,57 @@ mainContainer.addEventListener('click', function (event) {
         // after remove rerender the html
         if (currentStatus == 'interview-tab') {
             renderInterview()
+            if (interviewList.length === 0) {
+                filteredCard.classList.add('hidden');
+                cardTab.classList.remove('hidden');
+            }
         }
 
         calculateCount();
+
+        if (rejectedList.length === 0) {
+            cardTab.classList.remove('hidden')
+        }
+
+    } else if (event.target.closest('.delete-btn')) {
+        // step: 8  delele btn
+        const button = event.target.closest('.delete-btn');
+        const parentNode = button.closest('.card');
+
+        const companyName = parentNode.querySelector('.companyName').innerText;
+
+        // remove from interview & rejected list
+        interviewList = interviewList.filter(item => item.companyName !== companyName);
+        rejectedList = rejectedList.filter(item => item.companyName !== companyName);
+
+        // remove from DOM
+        parentNode.remove();
+
+        calculateCount()
+
+        for (const element of total) {
+            if (element.innerText === '0') {
+                cardTab.classList.remove('hidden')
+            }
+        }
+
+        // render current tab if needed
+        if (currentStatus === 'interview-tab') {
+            renderInterview()
+            if (interviewList.length === 0) {
+                filteredCard.classList.add('hidden');
+                cardTab.classList.remove('hidden');
+            }
+        } else if (currentStatus === 'rejected-tab') {
+            renderRejected()
+            if (rejectedList.length === 0) {
+                filteredCard.classList.add('hidden');
+                cardTab.classList.remove('hidden');
+            }
+        }
+
     }
-})
+});
 
 // Step: 6 check ary length & rander card in tab section
 function renderInterview() {
@@ -208,7 +264,7 @@ function renderInterview() {
                         </div>
 
                         <div>
-                            <button class="btn btn-circle text-[#64748B] border-2 border-[#F1F2F4]">
+                            <button class="delete-btn btn btn-circle text-[#64748B] border-2 border-[#F1F2F4] hover:border-red-500 hover:bg-red-100">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </div>
@@ -220,7 +276,7 @@ function renderInterview() {
                     </div>
 
                     <div class="space-y-2">
-                        <button class="btn-status btn btn-outline btn-success bg-[#EEF4FF] uppercase font-medium">${interview.status}</button>
+                        <button class="btn-status btn btn-outline btn-success bg-green-100 uppercase font-medium">${interview.status}</button>
                         <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
                             React Native. Work on products used by millions of users worldwide.</p>
                     </div>
@@ -254,7 +310,7 @@ function renderRejected() {
                         </div>
 
                         <div>
-                            <button class="btn btn-circle text-[#64748B] border-2 border-[#F1F2F4]">
+                            <button class="delete-btn btn btn-circle text-[#64748B] border-2 border-[#F1F2F4] hover:border-red-500 hover:bg-red-100">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </div>
@@ -266,7 +322,7 @@ function renderRejected() {
                     </div>
 
                     <div class="space-y-2">
-                        <button class="btn-status btn btn-outline btn-error bg-[#EEF4FF] uppercase font-medium">${rejected.status}</button>
+                        <button class="btn-status btn btn-outline btn-error bg-red-100 uppercase font-medium">${rejected.status}</button>
                         <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
                             React Native. Work on products used by millions of users worldwide.</p>
                     </div>
