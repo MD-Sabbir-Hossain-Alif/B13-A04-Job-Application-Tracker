@@ -1,4 +1,5 @@
 /* ----------------- Code logic for Job Application Tracker ----------------- */
+
 // Step: 3.2 make arr for two state
 let interviewList = [];
 let rejectedList = [];
@@ -217,7 +218,7 @@ mainContainer.addEventListener('click', function (event) {
         rejectedList = rejectedList.filter(item => item.companyName !== companyName);
 
         // show alert and delete
-        alert(`You want to delete ${companyName} card`)
+        alert(`Delete !? ${companyName}!`)
         parentNode.remove();
 
         calculateCount()
