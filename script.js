@@ -216,15 +216,14 @@ mainContainer.addEventListener('click', function (event) {
         interviewList = interviewList.filter(item => item.companyName !== companyName);
         rejectedList = rejectedList.filter(item => item.companyName !== companyName);
 
-        // remove from DOM
+        // show alert and delete
+        alert(`You want to delete ${companyName} card`)
         parentNode.remove();
 
         calculateCount()
 
-        for (const element of total) {
-            if (element.innerText === '0') {
-                cardTab.classList.remove('hidden')
-            }
+        if (cards.children.length === 0) {
+            cardTab.classList.remove('hidden');
         }
 
         // render current tab if needed
@@ -260,7 +259,7 @@ function renderInterview() {
                     <div class="flex justify-between items-center">
                         <div class="space-y-1">
                             <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">${interview.companyName}</h3>
-                            <p class="position text-[#64748B]">React Native Developer</p>
+                            <p class="position text-[#64748B]">${interview.position}</p>
                         </div>
 
                         <div>
@@ -271,14 +270,13 @@ function renderInterview() {
                     </div>
 
                     <div>
-                        <p class="text-[#64748B] text-sm"><span class="location">Remote</span> • <span
-                                class="type">Full-time</span> • <span class="salary">$130,000 - $175,000</span></p>
+                        <p class="text-[#64748B] text-sm"><span class="location">${interview.location}</span> • <span
+                                class="type">${interview.type}</span> • <span class="salary">${interview.salary}</span></p>
                     </div>
 
                     <div class="space-y-2">
                         <button class="btn-status btn btn-outline btn-success bg-green-100 uppercase font-medium">${interview.status}</button>
-                        <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
-                            React Native. Work on products used by millions of users worldwide.</p>
+                        <p class="description text-[#323B49] text-sm">${interview.description}</p>
                     </div>
 
                     <div class="space-x-2">
@@ -306,7 +304,7 @@ function renderRejected() {
                     <div class="flex justify-between items-center">
                         <div class="space-y-1">
                             <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">${rejected.companyName}</h3>
-                            <p class="position text-[#64748B]">React Native Developer</p>
+                            <p class="position text-[#64748B]">${rejected.position}</p>
                         </div>
 
                         <div>
@@ -317,14 +315,13 @@ function renderRejected() {
                     </div>
 
                     <div>
-                        <p class="text-[#64748B] text-sm"><span class="location">Remote</span> • <span
-                                class="type">Full-time</span> • <span class="salary">$130,000 - $175,000</span></p>
+                        <p class="text-[#64748B] text-sm"><span class="location">${rejected.location}</span> • <span
+                                class="type">${rejected.type}</span> • <span class="salary">${rejected.salary}</span></p>
                     </div>
 
                     <div class="space-y-2">
                         <button class="btn-status btn btn-outline btn-error bg-red-100 uppercase font-medium">${rejected.status}</button>
-                        <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
-                            React Native. Work on products used by millions of users worldwide.</p>
+                        <p class="description text-[#323B49] text-sm">${rejected.description}</p>
                     </div>
 
                     <div class="space-x-2">
