@@ -2,6 +2,8 @@
 // Step: 3.2 make arr for two state
 let interviewList = [];
 let rejectedList = [];
+//Step: 6.1 check current status
+let currentStatus = 'all';
 
 // Step: 1 get total, interview and rejected
 let total = document.getElementsByClassName('total');
@@ -56,6 +58,9 @@ function toggle(id) {
     selected.classList.remove('text-[#64748B]')
     selected.classList.add('bg-[#3B82F6]', 'text-white');
 
+    // set current status = id
+    currentStatus = id;
+
     // console.log(allTab);
     // console.log(interviewTab);
     // console.log(rejectedTab);
@@ -63,28 +68,24 @@ function toggle(id) {
     if (id === 'interview-tab') {
         cards.classList.add('hidden');
         cardTab.classList.remove('hidden');
-        filteredCard.classList.remove('hidden');
-        
-        // if arr has any card remove no job card add card
         if (interviewList.length) {
             filteredCard.classList.remove('hidden');
             cardTab.classList.add('hidden');
             renderInterview()
         }
+        
     } else if (id === 'rejected-tab') {
         cards.classList.add('hidden');
-        cardTab.classList.remove('hidden');
-        filteredCard.classList.remove('hidden');
-
+        cardTab.classList.remove('hidden')
         if (rejectedList.length) {
             filteredCard.classList.remove('hidden');
             cardTab.classList.add('hidden');
             renderRejected()
         }
     } else if (id === 'all-tab') {
-        cardTab.classList.add('hidden');
         filteredCard.classList.add('hidden')
         cards.classList.remove('hidden')
+        cardTab.classList.add('hidden')
     }
 
 }
@@ -101,11 +102,13 @@ mainContainer.addEventListener('click', function (event) {
         const location = parentNode.querySelector('.location').innerText;
         const type = parentNode.querySelector('.type').innerText;
         const salary = parentNode.querySelector('.salary').innerText;
-        const status = parentNode.querySelector('.btn-status').innerText;
+        const status = parentNode.querySelector('.btn-status');
         const description = parentNode.querySelector('.description').innerText;
 
         // update status btn
         parentNode.querySelector('.btn-status').innerText = 'Interview';
+
+        status.classList.add('btn-outline', 'btn-success')
 
         // create an object and push particular arr
         const cardInfo = {
@@ -126,9 +129,16 @@ mainContainer.addEventListener('click', function (event) {
             // console.log(interviewList)
         }
 
-        calculateCount();
+        // step: 7 remove if card has another tab
+        // removing the dublicate job list from interview
+        rejectedList = rejectedList.filter(item => item.companyName != cardInfo.companyName);
 
-        
+        // after remove rerender the html
+        if (currentStatus == 'rejected-tab') {
+            renderRejected()
+        }
+
+        calculateCount();
 
     } else if (event.target.classList.contains('btn-rejected')) {
         const parentNode = event.target.closest('.card');
@@ -139,9 +149,10 @@ mainContainer.addEventListener('click', function (event) {
         const location = parentNode.querySelector('.location').innerText;
         const type = parentNode.querySelector('.type').innerText;
         const salary = parentNode.querySelector('.salary').innerText;
-        const status = parentNode.querySelector('.btn-status').innerText;
+        const status = parentNode.querySelector('.btn-status');
         const description = parentNode.querySelector('.description').innerText;
 
+        status.classList.add('btn-outline', 'btn-error')
 
         // update status btn
         parentNode.querySelector('.btn-status').innerText = 'Rejected';
@@ -162,8 +173,18 @@ mainContainer.addEventListener('click', function (event) {
 
         if (!companyExist) {
             rejectedList.push(cardInfo);
-            // console.log(interviewList)
+            // console.log(rejectedList)
         }
+
+        // step: 7 remove if card has another tab
+        // removing the dublicate job list from interview
+        interviewList = interviewList.filter(item => item.companyName != cardInfo.companyName);
+
+        // after remove rerender the html
+        if (currentStatus == 'interview-tab') {
+            renderInterview()
+        }
+
         calculateCount();
     }
 })
@@ -182,8 +203,7 @@ function renderInterview() {
                 <div class="card p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
                     <div class="flex justify-between items-center">
                         <div class="space-y-1">
-                            <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">Mobile
-                                First Corp</h3>
+                            <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">${interview.companyName}</h3>
                             <p class="position text-[#64748B]">React Native Developer</p>
                         </div>
 
@@ -200,7 +220,7 @@ function renderInterview() {
                     </div>
 
                     <div class="space-y-2">
-                        <button class="btn-status btn bg-[#EEF4FF] uppercase font-medium">${interview.status}</button>
+                        <button class="btn-status btn btn-outline btn-success bg-[#EEF4FF] uppercase font-medium">${interview.status}</button>
                         <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
                             React Native. Work on products used by millions of users worldwide.</p>
                     </div>
@@ -221,7 +241,7 @@ function renderRejected() {
     filteredCard.innerHTML = '';
     // console.log(cardTab.innerHTML)
 
-    for (let interview of rejectedList) {
+    for (let rejected of rejectedList) {
         // console.log(interview);
 
         let div = document.createElement('div');
@@ -229,8 +249,7 @@ function renderRejected() {
                 <div class="card p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
                     <div class="flex justify-between items-center">
                         <div class="space-y-1">
-                            <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">Mobile
-                                First Corp</h3>
+                            <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">${rejected.companyName}</h3>
                             <p class="position text-[#64748B]">React Native Developer</p>
                         </div>
 
@@ -247,7 +266,7 @@ function renderRejected() {
                     </div>
 
                     <div class="space-y-2">
-                        <button class="btn-status btn bg-[#EEF4FF] uppercase font-medium">${interview.status}</button>
+                        <button class="btn-status btn btn-outline btn-error bg-[#EEF4FF] uppercase font-medium">${rejected.status}</button>
                         <p class="description text-[#323B49] text-sm">Build cross-platform mobile applications using
                             React Native. Work on products used by millions of users worldwide.</p>
                     </div>
