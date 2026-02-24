@@ -276,7 +276,7 @@ function renderInterview() {
 
         let div = document.createElement('div');
         div.innerHTML = `
-                <div class="card p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
+                <div class="card p-4 sm:p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
                     <div class="flex justify-between items-center">
                         <div class="space-y-1">
                             <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">${interview.companyName}</h3>
@@ -321,7 +321,7 @@ function renderRejected() {
 
         let div = document.createElement('div');
         div.innerHTML = `
-                <div class="card p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
+                <div class="card p-4 sm:p-6 bg-white border border-[#F1F2F4] shadow space-y-4">
                     <div class="flex justify-between items-center">
                         <div class="space-y-1">
                             <h3 class="companyName text-[#002C5C] text-xl sm:text-2xl md:text-[2rem] font-semibold">${rejected.companyName}</h3>
