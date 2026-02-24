@@ -11,6 +11,11 @@ let total = document.getElementsByClassName('total');
 let interviewCount = document.getElementById('interview');
 let rejectedCount = document.getElementById('rejected');
 
+
+// step: last. update total filter job
+let totalFilter = document.getElementById('total-filter')
+let ofText = document.getElementById('of');
+
 // Step: 3 get cards clild length
 const cards = document.getElementById('cards');
 
@@ -39,6 +44,15 @@ function calculateCount() {
     rejectedCount.innerText = rejectedList.length
 }
 calculateCount()
+
+// step: last.1 
+function countFilter() {
+    if (currentStatus === 'interview-tab') {
+        totalFilter.innerText = interviewList.length;
+    } else if (currentStatus === 'rejected-tab') {
+        totalFilter.innerText = rejectedList.length;
+    }
+}
 
 //Step: 4 toggle
 function toggle(id) {
@@ -69,6 +83,8 @@ function toggle(id) {
     if (id === 'interview-tab') {
         cards.classList.add('hidden');
         cardTab.classList.remove('hidden');
+        totalFilter.classList.remove('hidden')
+        ofText.classList.remove('hidden')
         if (interviewList.length) {
             filteredCard.classList.remove('hidden');
             cardTab.classList.add('hidden');
@@ -80,6 +96,8 @@ function toggle(id) {
     } else if (id === 'rejected-tab') {
         cards.classList.add('hidden');
         cardTab.classList.remove('hidden')
+        totalFilter.classList.remove('hidden')
+        ofText.classList.remove('hidden')
         if (rejectedList.length) {
             filteredCard.classList.remove('hidden');
             cardTab.classList.add('hidden');
@@ -91,8 +109,11 @@ function toggle(id) {
         filteredCard.classList.add('hidden')
         cards.classList.remove('hidden')
         cardTab.classList.add('hidden')
+        totalFilter.classList.add('hidden')
+        ofText.classList.add('hidden')
     }
 
+    countFilter()
 }
 
 // Step: 5 we add event leistener on main tag so we can do event delegation
@@ -149,6 +170,7 @@ mainContainer.addEventListener('click', function (event) {
         }
 
         calculateCount();
+        countFilter()
 
     } else if (event.target.classList.contains('btn-rejected')) {
         const parentNode = event.target.closest('.card');
@@ -201,10 +223,7 @@ mainContainer.addEventListener('click', function (event) {
         }
 
         calculateCount();
-
-        if (rejectedList.length === 0) {
-            cardTab.classList.remove('hidden')
-        }
+        countFilter()
 
     } else if (event.target.closest('.delete-btn')) {
         // step: 8  delele btn
@@ -242,6 +261,7 @@ mainContainer.addEventListener('click', function (event) {
             }
         }
 
+        countFilter()
     }
 });
 
@@ -277,7 +297,7 @@ function renderInterview() {
 
                     <div class="space-y-2">
                         <button class="btn-status btn btn-outline btn-success bg-green-100 uppercase font-medium">${interview.status}</button>
-                        <p class="description text-[#323B49] text-sm">${interview.description}</p>
+                        <p class="description text-[#323B49] text-xs sm:text-sm">${interview.description}</p>
                     </div>
 
                     <div class="space-x-2">
@@ -322,7 +342,7 @@ function renderRejected() {
 
                     <div class="space-y-2">
                         <button class="btn-status btn btn-outline btn-error bg-red-100 uppercase font-medium">${rejected.status}</button>
-                        <p class="description text-[#323B49] text-sm">${rejected.description}</p>
+                        <p class="description text-[#323B49] text-xs sm:text-sm">${rejected.description}</p>
                     </div>
 
                     <div class="space-x-2">
